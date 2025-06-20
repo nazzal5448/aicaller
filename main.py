@@ -92,3 +92,7 @@ async def process_audio(file: UploadFile = File(...)):
             os.remove(audio_path)
         except FileNotFoundError:
             pass
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
