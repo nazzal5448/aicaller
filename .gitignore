@@ -7,6 +7,6 @@ wheels/
 *.egg-info
 *.toml
 *.lock
-*.env
+.env
 # Virtual environments
 .venv
