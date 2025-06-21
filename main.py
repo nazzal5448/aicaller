@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException, Response
+from fastapi.middleware import cors
 from fastapi.responses import FileResponse
 from groq import Groq
 from TTS.api import TTS
@@ -10,6 +11,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 # Setup
 app = FastAPI()
+cors.CORSMiddleware(app=app, allow_origins=["*"])
+
 dotenv.load_dotenv()
 client = Groq(api_key=os.environ["GROQ_API_KEY"])
 
@@ -20,7 +23,7 @@ executor = ThreadPoolExecutor(max_workers=4)  # tune this based on your CPU
 # Utility: Async TTS wrapper for thread pool
 async def generate_tts_async(text: str, output_path: str):
     loop = asyncio.get_event_loop()
-    await loop.run_in_executor(executor, lambda: tts_model.tts_to_file(text=text, file_path=output_path))
+    await loop.run_in_executor(executor, lambda: tts_model.tts_to_file(text=text, file_path=output_path, speaker="p273"))
 @app.get("/")
 def home():
     return {
@@ -53,7 +56,7 @@ async def process_audio(file: UploadFile = File(...)):
         # 3. Get response from LLM
         chat_result = await asyncio.to_thread(
             client.chat.completions.create,
-            model= "llama-4-maverick-17b-128e-instruct",
+            model= "meta-llama/llama-4-scout-17b-16e-instruct",
             messages=[
                 {
                 "role": "system",
