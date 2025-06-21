@@ -1,0 +1,6 @@
+version: "2"
+authtoken: 2ynSwN1m0Yzxk98IpDZSY5ku8if_2bmJundB5f15ooD1zx3go
+tunnels:
+  aicaller:
+    proto: http
+    addr: 8000

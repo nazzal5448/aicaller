@@ -13,7 +13,8 @@ app = FastAPI()
 dotenv.load_dotenv()
 client = Groq(api_key=os.environ["GROQ_API_KEY"])
 
-tts_model = TTS(model_name="tts_models/en/ljspeech/tacotron2-DDC")
+tts_model = TTS(model_name="tts_models/en/vctk/vits")
+
 executor = ThreadPoolExecutor(max_workers=4)  # tune this based on your CPU
 
 # Utility: Async TTS wrapper for thread pool
